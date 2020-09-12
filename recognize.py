@@ -126,7 +126,7 @@ def predict(x_frame, knn_clf=None, model_path=None, distance_threshold=0.5):
         For faces of unrecognized persons, the name 'unknown' will be returned.
     """
     if knn_clf is None and model_path is None:
-        raise Exception("Must supply knn classifier either thourgh knn_clf or model_path")
+        raise Exception("Must supply knn classifier either through knn_clf or model_path")
 
     # Load a trained KNN model (if one was passed in)
     if knn_clf is None:
@@ -147,7 +147,7 @@ def predict(x_frame, knn_clf=None, model_path=None, distance_threshold=0.5):
     are_matches = [closest_distances[0][i][0] <= distance_threshold for i in range(len(x_face_locations))]
 
     # Predict classes and remove classifications that aren't within the threshold
-    return [(pred, loc) if rec else ("unknown", loc) for pred, loc, rec in zip(knn_clf.predict(faces_encodings),
+    return [(pred, loc) if rec else ("Unknown", loc) for pred, loc, rec in zip(knn_clf.predict(faces_encodings),
                                                                                x_face_locations, are_matches)]
 
 
@@ -169,7 +169,7 @@ def show_prediction_labels_on_image(frame, predictions):
         bottom *= 2
         left *= 2
         # Draw a box around the face using the Pillow module
-        draw.rectangle(((left, top), (right, bottom)), outline=(0, 0, 255))
+        draw.rectangle(((left, top), (right, bottom)), outline=(255, 255, 255))
 
         # There's a bug in Pillow where it blows up with non-UTF-8 text
         # when using the default bitmap font
@@ -177,8 +177,8 @@ def show_prediction_labels_on_image(frame, predictions):
 
         # Draw a label with a name below the face
         text_width, text_height = draw.textsize(name)
-        draw.rectangle(((left, bottom - text_height - 10), (right, bottom)), fill=(0, 0, 255), outline=(0, 0, 255))
-        draw.text((left + 6, bottom - text_height - 5), name, fill=(255, 255, 255, 255))
+        draw.rectangle(((left, bottom - text_height - 10), (right, bottom)), fill=(255, 255, 255), outline=(255, 255, 255))
+        draw.text((left + 6, bottom - text_height - 5), name, fill=(0, 0, 0, 0))
 
     # Remove the drawing library from memory as per the Pillow docs.
     del draw
@@ -190,14 +190,14 @@ def show_prediction_labels_on_image(frame, predictions):
 
 if __name__ == "__main__":
     print("Training KNN classifier...")
-    classifier = train("knn_examples/train", model_save_path="trained_knn_model.clf", n_neighbors=2)
+    classifier = train("train", model_save_path="trained_knn_model.clf", n_neighbors=3)
     print("Training complete!")
-    # process one frame in every 30 frames for speed
-    process_this_frame = 29
+
+    process_this_frame = 24
     print('Setting cameras up...')
-    # multiple cameras can be used with the format url = 'http://username:password@camera_ip:port'
-    url = 'http://admin:admin@192.168.0.106:8081/'
-    cap = cv2.VideoCapture(0)
+
+    url = 0
+    cap = cv2.VideoCapture(url)
     while 1 > 0:
         ret, frame = cap.read()
         if ret:
@@ -205,10 +205,10 @@ if __name__ == "__main__":
             # Image resizing for more stable streaming
             img = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
             process_this_frame = process_this_frame + 1
-            if process_this_frame % 30 == 0:
+            if process_this_frame % 25 == 0:
                 predictions = predict(img, model_path="trained_knn_model.clf")
             frame = show_prediction_labels_on_image(frame, predictions)
-            cv2.imshow('camera', frame)
+            cv2.imshow('Live View', frame)
             if ord('q') == cv2.waitKey(10):
                 cap.release()
                 cv2.destroyAllWindows()

@@ -1,3 +1,5 @@
+import time
+from datetime import datetime
 import json
 import threading
 
@@ -12,9 +14,15 @@ from .serializers import StudentSerializer, CameraSerializer
 
 
 # Create your views here.
-def faceFound(name):
-    print(name)
-    # Do code for websockets here
+def faceFound(names):
+    print(names)
+    if len(names) > 0:
+        for name in names:
+            if name == "Unknown":
+                continue
+            s = Student.objects.get(studentId=name)
+            s.lastSeen = datetime.now()
+            s.save()
 
 
 class StudentView(views.APIView):
@@ -48,4 +56,6 @@ class CameraView(viewsets.ModelViewSet):
 def runapi():
     recognize.break_run()
     recognize.train("media", model_save_path="trained_knn_model.clf")
-    recognize.run_recognition(Camera.objects.first().address, faceFound)
+    time.sleep(15)
+    c = Camera.objects.first()
+    recognize.run_recognition("http://" + str(c) + "/video", faceFound)

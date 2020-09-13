@@ -3,6 +3,9 @@
 import os
 import sys
 
+import recognize
+
+
 def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'AutoSecurity.settings')
     try:
@@ -13,6 +16,7 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         )
+    recognize.train("media", model_save_path="trained_knn_model.clf")
     execute_from_command_line(sys.argv)
 
 

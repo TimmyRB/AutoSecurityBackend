@@ -181,8 +181,8 @@ def show_prediction_labels_on_image(frame, predictions):
 
         # There's a bug in Pillow where it blows up with non-UTF-8 text
         # when using the default bitmap font
-        name = name.encode("UTF-8")
         names.append(name)
+        name = name.encode("UTF-8")
 
         # Draw a label with a name below the face
         text_width, text_height = draw.textsize(name)
@@ -210,7 +210,7 @@ def run_recognition(url, faceFoundCallback):
     print('Setting cameras up...')
 
     STILL_RUN = True
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(url)
     while STILL_RUN:
         ret, frame = cap.read()
         if ret:

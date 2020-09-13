@@ -1,29 +1,30 @@
 from django.shortcuts import render
 from rest_framework import viewsets, views
+from rest_framework.decorators import action
 from .models import Student, Camera
 from .serializers import StudentSerializer, CameraSerializer
-from recognize import Recognition
+import recognize
+
 
 # Create your views here.
 
-def FaceFound(name):
+def faceFound(name):
     print(name)
     # Do code for websockets here
+
 
 class StudentView(viewsets.ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
-    Recognition.train("media", "trained_knn_model.clf")
+
+    @action(detail=True, methods=['post'])
+    def runAI(self, request, format=None):
+        print("I'm going to kill Steve")
+        recognize.break_run()
+        recognize.train("media", model_save_path="trained_knn_model.clf")
+        recognize.run_recognition(0, faceFound)
+
 
 class CameraView(viewsets.ModelViewSet):
     queryset = Camera.objects.all()
     serializer_class = CameraSerializer
-
-class Run(views.APIView):
-    def put(self, request, pk, format=None):
-        Recognition.run_recognition(Camera.objects.first().address, FaceFound)
-
-    @classmethod
-    def get_extra_actions(cls):
-        return []
-    

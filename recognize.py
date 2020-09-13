@@ -47,6 +47,7 @@ import numpy as np
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'JPG'}
 STILL_RUN = True
 
+
 def train(train_dir, model_save_path=None, n_neighbors=None, knn_algo='ball_tree', verbose=False):
     """
     Trains a k-nearest neighbors classifier for face recognition.
@@ -114,6 +115,7 @@ def train(train_dir, model_save_path=None, n_neighbors=None, knn_algo='ball_tree
 
     return knn_clf
 
+
 def predict(x_frame, knn_clf=None, model_path=None, distance_threshold=0.5):
     """
     Recognizes faces in given image using a trained KNN classifier
@@ -148,11 +150,12 @@ def predict(x_frame, knn_clf=None, model_path=None, distance_threshold=0.5):
     # Use the KNN model to find the best matches for the test face
     closest_distances = knn_clf.kneighbors(faces_encodings, n_neighbors=1)
     are_matches = [closest_distances[0][i][0] <=
-                    distance_threshold for i in range(len(x_face_locations))]
+                   distance_threshold for i in range(len(x_face_locations))]
 
     # Predict classes and remove classifications that aren't within the threshold
     return [(pred, loc) if rec else ("Unknown", loc) for pred, loc, rec in zip(knn_clf.predict(faces_encodings),
-                                                                                x_face_locations, are_matches)]
+                                                                               x_face_locations, are_matches)]
+
 
 def show_prediction_labels_on_image(frame, predictions):
     """
@@ -174,7 +177,7 @@ def show_prediction_labels_on_image(frame, predictions):
         left *= 2
         # Draw a box around the face using the Pillow module
         draw.rectangle(((left, top), (right, bottom)),
-                        outline=(255, 255, 255))
+                       outline=(255, 255, 255))
 
         # There's a bug in Pillow where it blows up with non-UTF-8 text
         # when using the default bitmap font
@@ -184,9 +187,9 @@ def show_prediction_labels_on_image(frame, predictions):
         # Draw a label with a name below the face
         text_width, text_height = draw.textsize(name)
         draw.rectangle(((left, bottom - text_height - 10), (right, bottom)),
-                        fill=(255, 255, 255), outline=(255, 255, 255))
+                       fill=(255, 255, 255), outline=(255, 255, 255))
         draw.text((left + 6, bottom - text_height - 5),
-                    name, fill=(0, 0, 0, 0))
+                  name, fill=(0, 0, 0, 0))
 
     # Remove the drawing library from memory as per the Pillow docs.
     del draw
@@ -194,6 +197,7 @@ def show_prediction_labels_on_image(frame, predictions):
 
     opencvimage = np.array(pil_image)
     return opencvimage, names
+
 
 def run_recognition(url, faceFoundCallback):
     """
@@ -224,6 +228,7 @@ def run_recognition(url, faceFoundCallback):
                 cap.release()
                 cv2.destroyAllWindows()
                 exit(0)
+
 
 def break_run():
     STILL_RUN = False

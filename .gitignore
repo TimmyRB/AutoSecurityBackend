@@ -130,7 +130,7 @@ dmypy.json
 
 # AI Training
 media/
-.clf
+*.clf
 
 # Migrations
 migrations/

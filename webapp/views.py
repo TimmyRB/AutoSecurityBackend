@@ -48,4 +48,4 @@ class CameraView(viewsets.ModelViewSet):
 def runapi():
     recognize.break_run()
     recognize.train("media", model_save_path="trained_knn_model.clf")
-    recognize.run_recognition(0, faceFound)
+    recognize.run_recognition(Camera.objects.first().address, faceFound)

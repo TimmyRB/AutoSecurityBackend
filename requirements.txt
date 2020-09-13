@@ -1,6 +1,7 @@
 Django~=3.0.5
 djangorestframework~=3.11.1
 numpy~=1.19.1
+channels~=2.4.0
 
 
 face-recognition-models~=0.3.0

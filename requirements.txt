@@ -130,7 +130,7 @@ nose==1.3.7
 notebook @ file:///C:/ci/notebook_1596840175976/work
 numba==0.50.1
 numexpr==2.7.1
-numpy @ file:///C:/ci/numpy_and_numpy_base_1596215850360/work
+numpy==1.19.2
 numpydoc @ file:///tmp/build/80754af9/numpydoc_1594166760263/work
 olefile==0.46
 opencv-python==4.4.0.42
@@ -174,6 +174,7 @@ pyreadline==2.1
 pyrsistent==0.16.0
 PySocks==1.7.1
 pytest==6.0.1
+python-dateutil==2.8.1
 python-jsonrpc-server @ file:///tmp/build/80754af9/python-jsonrpc-server_1594397536060/work
 python-language-server @ file:///C:/ci/python-language-server_1594162130238/work
 pytz==2020.1
@@ -194,12 +195,13 @@ Rtree==0.9.4
 ruamel-yaml==0.15.87
 scikit-image==0.16.2
 scikit-learn @ file:///C:/ci/scikit-learn_1598377018496/work
-scipy @ file:///C:/ci/scipy_1592916963468/work
+scipy==1.5.2
 seaborn==0.10.1
 Send2Trash==1.5.0
 simplegeneric==0.8.1
 singledispatch==3.4.0.3
 sip==4.19.13
+six==1.15.0
 snowballstemmer==2.0.0
 sortedcollections==1.2.1
 sortedcontainers==2.2.2

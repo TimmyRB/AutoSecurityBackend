@@ -129,7 +129,8 @@ dmypy.json
 .pyre/
 
 # AI Training
-media/
+media/**
+!media/TestUser
 *.clf
 
 # Migrations

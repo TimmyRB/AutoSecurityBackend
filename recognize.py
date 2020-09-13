@@ -188,7 +188,13 @@ def show_prediction_labels_on_image(frame, predictions):
     return opencvimage
 
 
-if __name__ == "__main__":
+def run_recognition(url, faceFoundCallback):
+    """
+    Runs facial recognition on the specified URL and sends a callback when a face is detected
+
+    :param url: URL for live video stream
+    :param faceFoundCallback: callback called when a face is detected
+    """
     print("Training KNN classifier...")
     classifier = train("train", model_save_path="trained_knn_model.clf", n_neighbors=3)
     print("Training complete!")
@@ -196,7 +202,6 @@ if __name__ == "__main__":
     process_this_frame = 24
     print('Setting cameras up...')
 
-    url = 0
     cap = cv2.VideoCapture(url)
     while 1 > 0:
         ret, frame = cap.read()

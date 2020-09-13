@@ -128,5 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Media for training
+# AI Training
 media/
+
+# Migrations
+migrations/
